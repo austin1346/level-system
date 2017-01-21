@@ -2,7 +2,7 @@
 --[ Shared ]--
 
 --[Config]
-expMultiplier = 3;
+expMultiplier = 4.75;
 
 
 

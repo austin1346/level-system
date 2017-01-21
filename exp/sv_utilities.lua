@@ -41,9 +41,35 @@ function plyMeta:AddExp( newExp )
 end
 
 --[View money and exp]
-concommand.Add( "show_info", function( ply, cmd, args )
+concommand.Add( "show_info", function( ply, cmd, args, str )
 	ply:PrintMessage( HUD_PRINTCONSOLE, "----------" )
 	ply:PrintMessage( HUD_PRINTCONSOLE, "Level: " .. ply:CurLvl() )
 	ply:PrintMessage( HUD_PRINTCONSOLE, "Exp: " .. ply:CurExp() .. "/" .. ply:expToLevel() )
 	ply:PrintMessage( HUD_PRINTCONSOLE, "----------" )
+end )
+
+--[Set level]
+concommand.Add( "set_level", function( ply, cmd, args )
+	if !ply:IsSuperAdmin() then return end
+
+	local target = args[1]
+	local level = tonumber( args[2] )
+
+	if !IsValid( ply, target, level ) or args[3] or !isnumber( level ) then
+		ply:PrintMessage( HUD_PRINTCONSOLE, "Incorrect Syntax! Try; set_level <target> <level>" )
+		return
+	end
+
+	for k, v in pairs( player.GetHumans() ) do
+		if !string.find( v:Name(), target ) then
+			ply:PrintMessage( HUD_PRINTCONSOLE, "Player not found!" )
+			return
+		end
+
+		target = v;
+	end
+
+	target:SetLevel( level )
+	target:SetExp( 0 )
+	ply:PrintMessage( HUD_PRINTCONSOLE, "Set level for " .. target:Name() .. " to " .. level )
 end )
