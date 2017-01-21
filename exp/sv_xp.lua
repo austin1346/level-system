@@ -3,8 +3,6 @@
 
 --[OnNPCKilled]
 function NPCKilled( npc, attacker, inflictor )
-	attacker:SetNWInt( "PlayerExp", attacker:CurExp() + 101 )
-
-	canPlayerLevel( attacker )
+	attacker:AddExp( 101 )
 end
 hook.Add( "OnNPCKilled", "PlayerKilledNPC", NPCKilled )

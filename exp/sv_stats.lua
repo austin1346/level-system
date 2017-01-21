@@ -4,31 +4,10 @@ local plyMeta = FindMetaTable( "Player" )
 
 --[Save stats]
 
---[Timer]
-function gmLoaded()
-	timer.Create( "SaveTheStats", 10, 0, function()
-		for k, v in pairs( player.GetAll() ) do
-			v:SetPData( "PlayerLevel", v:CurLvl() )
-			v:SetPData( "PlayerExp", v:CurExp() )
-			v:ChatPrint( "Stats Saved!;" .. "Level: " .. v:CurLvl() .. "; " .. v:CurExp() .. "/" .. v:expToLevel() )
-		end
-	end )
-end
-hook.Add( "Initialize", "GamemodeLoaded", gmLoaded )
-
 --[ First Spawn ]
 function firstSpawn( ply )
-	if ( ply:GetPData( "PlayerLevel" ) == nil ) then
-		ply:SetLevel( 1 )
-	else
-		ply:SetLevel( tonumber( ply:GetPData( "PlayerLevel" ) ) )
-	end
-
-	if ( ply:GetPData( "PlayerExp" ) == nil ) then
-		ply:SetExp( 0 )
-	else
-		ply:SetExp( tonumber( ply:GetPData( "PlayerExp" ) ) )
-	end
+	ply:SetLevel( tonumber( ply:GetPData( "PlayerLevel", 1 ) ) )
+	ply:SetExp( tonumber( ply:GetPData( "PlayerExp", 0 ) ) )
 end
 hook.Add( "PlayerInitialSpawn", "PlayerFirstSpawn", firstSpawn )
 

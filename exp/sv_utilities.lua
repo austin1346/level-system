@@ -16,7 +16,7 @@ function canPlayerLevel( ply )
 		ply:SetNWInt( "PlayerLevel", curLvl + 1 )
 
 		net.Start( "PlayerLeveledUp" )
-			net.WriteString( ply:CurLvl() )
+			net.WriteUInt( ply:CurLvl(), 8 )
 		net.Send( ply )
 	end
 end
@@ -24,20 +24,20 @@ end
 --[Set Level]
 function plyMeta:SetLevel( newLvl )
 	self:SetNWInt( "PlayerLevel", newLvl )
-
 	canPlayerLevel( self )
+	self:SetPData( "PlayerLevel", self:CurLvl() )
 end
 
 --[Set Exp]
 function plyMeta:SetExp( newExp )
 	self:SetNWInt( "PlayerExp", newExp )
-
 	canPlayerLevel( self )
+	self:SetPData( "PlayerExp", self:CurExp() )
 end
 
 --[Add Exp]
 function plyMeta:AddExp( newExp )
-	self:SetNWInt( "PlayerExp", self:CurExp() + newExp )
+	self:SetExp( self:CurExp() + newExp )
 end
 
 --[View money and exp]
