@@ -2,8 +2,17 @@
 --[ Shared ]--
 
 --[Config]
-expMultiplier = 4.75;
+--Exp Multiplier; Used to change the max Exp required to level up
+GM.expMultiplier = 4.75; --Default 4.75x
 
+--How much Exp should be awarded upon killing an Npc?
+GM.expNpcKilled = math.random( 90, 110 );
+
+--At what interval should it give players Exp
+GM.expTimer = 300; --Default 300s
+
+--Amount of Exp to give players through the above timer
+GM.expTimerAmt = 150; --Default 150xp
 
 
 
@@ -23,5 +32,5 @@ end
 
 --[Exp to level]
 function plyMeta:expToLevel()
-	return ( self:CurLvl() * 100 ) * expMultiplier
+	return ( self:CurLvl() * 100 ) * GAMEMODE.expMultiplier
 end

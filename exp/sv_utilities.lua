@@ -1,5 +1,6 @@
 #NoSimplerr#
 --[Utilities]
+--[Do not touch anything after this line or else it will break!]
 local plyMeta = FindMetaTable( "Player" )
 util.AddNetworkString( "PlayerLeveledUp" )
 
@@ -12,8 +13,8 @@ local function canPlayerLevel( ply )
 	if ( ply:CurExp() >= ply:expToLevel() ) then
 		curExp = curExp - expToLevel
 
-		ply:SetNWInt( "PlayerExp", curExp )
-		ply:SetNWInt( "PlayerLevel", curLvl + 1 )
+		ply:SetExp( curExp )
+		ply:SetLevel( curLvl + 1 )
 
 		net.Start( "PlayerLeveledUp" )
 			net.WriteUInt( ply:CurLvl(), 8 )
@@ -50,7 +51,10 @@ end )
 
 --[Set level]
 concommand.Add( "set_level", function( ply, cmd, args )
-	if !ply:IsSuperAdmin() then return end
+	if !ply:IsSuperAdmin() then
+		ply:PrintMessage( HUD_PRINTCONSOLE, "Incorrect Usergroup!" )
+		return
+	end
 
 	local target = args[1]
 	local level = tonumber( args[2] )
@@ -75,7 +79,7 @@ concommand.Add( "set_level", function( ply, cmd, args )
 		return
 	end
 
-	newTarget:SetLevel( level )
 	newTarget:SetExp( 0 )
+	newTarget:SetLevel( level )
 	ply:PrintMessage( HUD_PRINTCONSOLE, "Set level for " .. newTarget:Name() .. " to " .. level )
 end )

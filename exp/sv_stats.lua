@@ -1,8 +1,8 @@
 #NoSimplerr#
 --[Stat saving]
-local plyMeta = FindMetaTable( "Player" )
+--[Do not touch anything after this line or else it will break!]
 
---[Save stats]
+local plyMeta = FindMetaTable( "Player" )
 
 --[ First Spawn ]
 function firstSpawn( ply )
