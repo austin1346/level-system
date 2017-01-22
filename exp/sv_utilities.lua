@@ -4,7 +4,7 @@ local plyMeta = FindMetaTable( "Player" )
 util.AddNetworkString( "PlayerLeveledUp" )
 
 --[CanPlayerLevel]
-function canPlayerLevel( ply )
+local function canPlayerLevel( ply )
 	local expToLevel = ply:expToLevel()
 	local curExp = ply:CurExp()
 	local curLvl = ply:CurLvl()
@@ -60,16 +60,22 @@ concommand.Add( "set_level", function( ply, cmd, args )
 		return
 	end
 
-	for k, v in pairs( player.GetHumans() ) do
-		if !string.find( v:Name(), target ) then
-			ply:PrintMessage( HUD_PRINTCONSOLE, "Player not found!" )
-			return
-		end
+	target = string.lower( target )
+	local newTarget
 
-		target = v;
+	for k, v in pairs( player.GetHumans() ) do
+		if string.find( v:Name():lower(), target, 1, true ) then
+			newTarget = v;
+			break
+		end
 	end
 
-	target:SetLevel( level )
-	target:SetExp( 0 )
-	ply:PrintMessage( HUD_PRINTCONSOLE, "Set level for " .. target:Name() .. " to " .. level )
+	if not newTarget then
+		ply:PrintMessage( HUD_PRINTCONSOLE, "Player not found!" )
+		return
+	end
+
+	newTarget:SetLevel( level )
+	newTarget:SetExp( 0 )
+	ply:PrintMessage( HUD_PRINTCONSOLE, "Set level for " .. newTarget:Name() .. " to " .. level )
 end )
