@@ -6,7 +6,7 @@ local plyMeta = FindMetaTable( "Player" )
 
 --[ First Spawn ]
 function firstSpawn( ply )
-	ply:SetLevel( tonumber( ply:GetPData( "PlayerLevel", 1 ) ) )
-	ply:SetExp( tonumber( ply:GetPData( "PlayerExp", 0 ) ) )
+	ply:SetLevel( tonumber( ply:GetPData( "PlayerLevel", 1 ) ), true )
+	ply:SetExp( tonumber( ply:GetPData( "PlayerExp", 0 ) ), true )
 end
 hook.Add( "PlayerInitialSpawn", "PlayerFirstSpawn", firstSpawn )

@@ -5,7 +5,7 @@
 
 --[OnNPCKilled]
 function NPCKilled( npc, attacker, inflictor )
-	attacker:AddExp( GAMEMODE.expNpcKilled )
+	attacker:AddExp( LEVELS.expNpcKilled )
 end
 hook.Add( "OnNPCKilled", "PlayerKilledNPC", NPCKilled )
 
@@ -13,8 +13,8 @@ hook.Add( "OnNPCKilled", "PlayerKilledNPC", NPCKilled )
 function initSpawn( ply )
 	local id = ply:AccountID()
 
-	timer.Create( "xp_" .. id, GAMEMODE.expTimer, 0, function()
-		ply:AddExp( GAMEMODE.expTimerAmt )
+	timer.Create( "xp_" .. id, LEVELS.expTimer, 0, function()
+		ply:AddExp( LEVELS.expTimerAmt )
 		ply:PrintMessage( HUD_PRINTCONSOLE, "[DEBUG] Timer ran!" )
 	end )
 end
@@ -24,8 +24,6 @@ hook.Add( "PlayerInitialSpawn", "PlayerFirstSpawn2", initSpawn )
 function playerLeft( ply )
 	local id = ply:AccountID()
 
-	if timer.Exists( "xp_" .. id ) then
-		timer.Remove( "xp_" .. id )
-	end
+	timer.Remove( "xp_" .. id )
 end
 hook.Add( "PlayerDisconnected", "PlayerLeft2", playerLeft )

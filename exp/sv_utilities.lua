@@ -23,17 +23,23 @@ local function canPlayerLevel( ply )
 end
 
 --[Set Level]
-function plyMeta:SetLevel( newLvl )
+function plyMeta:SetLevel( newLvl, noSave )
 	self:SetNWInt( "PlayerLevel", newLvl )
+
+	if noSave then return end
+
 	canPlayerLevel( self )
 	self:SetPData( "PlayerLevel", self:CurLvl() )
 end
 
 --[Set Exp]
-function plyMeta:SetExp( newExp )
+function plyMeta:SetExp( newExp, noSave )
 	self:SetNWInt( "PlayerExp", newExp )
-	canPlayerLevel( self )
+
+	if noSave then return end
+
 	self:SetPData( "PlayerExp", self:CurExp() )
+	canPlayerLevel( self )
 end
 
 --[Add Exp]
